@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuracion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFiles>
+    <string>.\GenCert.docx</string>
+  </SourceFiles>
+  <Compilar>true</Compilar>
+  <DirectorioDestino>.\CADC-project</DirectorioDestino>
+  <HtmlCabecera />
+  <HtmlPie />
+  <TituloAyuda>Generate Certifate - Application</TituloAyuda>
+  <NivelCorte>9</NivelCorte>
+  <GenerarWeb>true</GenerarWeb>
+  <ArchivosAdicionales />
+  <AbrirProyecto>true</AbrirProyecto>
+  <DirectorioWeb>.\GenCert-web</DirectorioWeb>
+  <NivelArbolContenidos>9</NivelArbolContenidos>
+  <NivelTemasIndice>9</NivelTemasIndice>
+  <ArchivoAyuda>.\GenCert.chm</ArchivoAyuda>
+  <CommandLine />
+  <GeneratePdf>true</GeneratePdf>
+  <PdfPath>.\GenCert.pdf</PdfPath>
+  <WebKeywords />
+  <WebDescription />
+  <WebHeaderFile />
+  <WebFooterFile />
+  <GenerateSitemap>false</GenerateSitemap>
+  <WebBase>http://</WebBase>
+  <ChangeFrequency>monthly</ChangeFrequency>
+  <WebLanguage>English</WebLanguage>
+  <ConfigurationVersion>1.7</ConfigurationVersion>
+  <FullTextSearch>false</FullTextSearch>
+  <PdfGeneration>OfficeAddin</PdfGeneration>
+  <GenerateXps>true</GenerateXps>
+  <XpsPath>.\GenCert.xps</XpsPath>
+  <GenerateJavaHelp>false</GenerateJavaHelp>
+  <JavaHelpPath>.\CADC.jar</JavaHelpPath>
+  <HeadTagFile />
+  <ChmLocaleID>1033</ChmLocaleID>
+  <WebTemplateName>jQuery</WebTemplateName>
+  <CustomTemplateDirectory />
+</Configuracion>
