@@ -1,0 +1,189 @@
+﻿<Controls:MetroWindow 
+    x:Name="mainWindow"
+    x:Class="GenCert.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+    xmlns:dockablz="clr-namespace:Dragablz.Dockablz;assembly=Dragablz"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"                      
+    xmlns:local="clr-namespace:GenCert" 
+    Title="Generate Certificate - Application"
+    MinHeight="600" MinWidth="650"  
+    WindowStartupLocation="CenterScreen" 
+    mc:Ignorable="d" 
+    d:DesignHeight="900" d:DesignWidth="925"
+    ResizeMode="CanResizeWithGrip"
+    ShowIconOnTitleBar="True" 
+    Closing="MetroWindowClosing"
+    PreviewMouseDown="Window_PreviewMouseDown"
+    KeyDown="winMain_KeyDown"
+    SaveWindowPosition="True"
+    GlowBrush="{DynamicResource AccentColorBrush}"
+    NonActiveGlowBrush="#CDFF0000"
+    AllowsTransparency="False"
+    WindowTransitionsEnabled="False"
+    Icon="certificate.ico"
+    >
+    <!--Icon="cert.ico"-->
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+
+            <Rectangle x:Key="AppThemeMenuIcon" x:Shared="False" Width="16" Height="16" StrokeThickness="1"
+                        Stroke="{Binding BorderColorBrush, Mode=OneWay}" Fill="{Binding ColorBrush, Mode=OneWay}" />
+
+            <Rectangle x:Key="AccentMenuIcon" x:Shared="False" Width="16" Height="16"
+                        Fill="{Binding ColorBrush, Mode=OneWay}" />
+
+            <Style x:Key="AppThemeMenuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                <Setter Property="Command" Value="{Binding ChangeAccentCommand}" />
+                <Setter Property="Icon" Value="{StaticResource AppThemeMenuIcon}" />
+                <Setter Property="Header" Value="{Binding NameDisplay, Mode=OneWay}" />
+            </Style>
+
+            <Style x:Key="AccentColorMenuItemStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                <Setter Property="Command" Value="{Binding ChangeAccentCommand}" />
+                <Setter Property="Icon" Value="{StaticResource AccentMenuIcon}" />
+                <Setter Property="Header" Value="{Binding NameDisplay, Mode=OneWay}" />
+            </Style>
+
+            <Style TargetType="{x:Type Button}" 
+                       BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Controls:ButtonHelper.PreserveTextCase" Value="True"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+
+    <!--<Controls:MetroWindow.WindowButtonCommands>
+        <Controls:WindowButtonCommands Template="{DynamicResource MahApps.Metro.Templates.WindowButtonCommands.Win10}" />
+    </Controls:MetroWindow.WindowButtonCommands>-->
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands >
+            <Menu>
+                <MenuItem Header="Theme" ItemsSource="{Binding AppThemes, Mode=OneWay}" 
+                          ItemContainerStyle="{StaticResource AppThemeMenuItemStyle}" />
+                <MenuItem Header="Accent" ItemsSource="{Binding AccentColors, Mode=OneWay}" 
+                          ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}" />
+            </Menu>
+            <Button Click="About" ToolTip="Application Info">
+                <iconPacks:PackIconModern Kind="InformationCircle" Width="22" Height="22" />
+            </Button>
+            <Button Click="LaunchHelp" ToolTip="Get Application Help">
+                <iconPacks:PackIconModern Kind="HomeQuestion" Width="22" Height="22" />
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <!--<iconPacks:PackIconModern Kind="TilesPlus" 
+                                      Foreground="{DynamicResource IdealForegroundColorBrush}"
+                                      Margin="4"
+                                      Width="{TemplateBinding Width}"
+                                      Height="{TemplateBinding Height}" />-->
+            <iconPacks:PackIconMaterial Kind="Certificate" 
+                                      Foreground="{DynamicResource IdealForegroundColorBrush}"
+                                      Margin="4"
+                                      Width="{TemplateBinding Width}"
+                                      Height="{TemplateBinding Height}" />
+            <!--<iconPacks:PackIconFontAwesome Kind="Key" />-->
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Menu Grid.Row="0" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Stretch" Name="mnuOptions">
+            <MenuItem Header="Create Request" Click="OpenCreateReguestForm_Click">
+                <MenuItem.ToolTip>
+                    <TextBlock>
+                        Create certificate request file and private krey for certificate.<LineBreak />
+                        Created certificate request file (.csr) need to be send<LineBreak />
+                        to external or internal certificate authority (CA), that will generate<LineBreak />
+                        (signed) certificate (.cer), base on data inside request (.csr) file.
+                    </TextBlock>
+                </MenuItem.ToolTip>
+            </MenuItem>  
+            <MenuItem Header="Create Certificate" Click="OpenSignCertForm_Click">
+                <MenuItem.ToolTip>
+                    <TextBlock>
+                    Create certificate file with private key (.pfx) base on certificate (signed) file<LineBreak />
+                    that we get from certificate authority and private key file (.key) that we generate<LineBreak />
+                    with menu option 'Create Request'. Optional, we can add CA public key<LineBreak />
+                    (CA that signed certificate request file) to generated file.<LineBreak />
+                    NOTE:<LineBreak />
+                    If you add CA public key file inside generated .pfx file, when you doing certificate installation<LineBreak />
+                    allow installation wizard to automaticly determine place inside certificate store to install certificate<LineBreak />
+                    This generatet certificate.
+                    </TextBlock> 
+                </MenuItem.ToolTip>
+            </MenuItem>
+            <MenuItem Header="Create SelfSign Cert." Click="OpenSelfSignCertForm_Click">
+                <MenuItem.ToolTip>
+                    <TextBlock>
+                        This menu option can use to generate self signe certificate file or selfsigne certificate file<LineBreak />
+                        that can use as certificate authority (CA). For test purpose, if we generate CA certificate,<LineBreak />
+                        we can use this CA generate certificate to sign certificate request file (.csr)<LineBreak />
+                        that we generate inside option 'Create Request' and generate signed certificate file (.cer),<LineBreak />
+                        that we can use inside menu option 'Create Certificate'<LineBreak />
+                        NOTE:<LineBreak />
+                        This menu option is used for testing purposes when generating certificate that will act sa CA certificate.
+                    </TextBlock>
+                </MenuItem.ToolTip>
+            </MenuItem>
+            <MenuItem Header="Issue Certificate" Click="OpenSignRequestForm_Click">
+                <MenuItem.ToolTip>
+                    <TextBlock>
+                        This menu option will generate certificate file, base on data inside certificate request file,<LineBreak />
+                        that we generate inside menu option 'Create Request'. Output of this option will be certificate file (.cer)<LineBreak />
+                        signed ba CA certificate private key that we generate usig menu option 'Create SelfSign Cert.'<LineBreak />
+                        Generate signed certificate file (.cer) can be use as input for menu option 'Create Certificate'<LineBreak />
+                        NOTE:<LineBreak />
+                        This menu option simulates signing certificate request file (.csr) from CA certificate authority<LineBreak />
+                        and generate sign certificate file base on data inside certificate request file (.csr).<LineBreak />
+                        This menu option is used for testing purposes 
+                    </TextBlock>
+                </MenuItem.ToolTip>
+            </MenuItem>
+        </Menu>
+
+        <!--<Border x:Name="mainGrid" Grid.Row="1"/>-->
+        <dockablz:Layout x:Name="mainGrid" Grid.Row="1" FloatingItemHeaderMemberPath="Header" FloatingItemDisplayMemberPath="Content" 
+                     FloatingItemContainerStyle="{StaticResource MahAppsToolDragablzItemStyle}" >
+
+            <dragablz:TabablzControl x:Name="InitialTabablzControl" ItemsSource="{Binding TabContents}"   
+                                 HeaderMemberPath="Header" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                 ShowDefaultAddButton="false" ShowDefaultCloseButton="True" AllowDrop="True" FixedHeaderCount="1"
+                                 Margin="0">
+                
+                <dragablz:TabablzControl.InterTabController>
+                    <dragablz:InterTabController InterTabClient="{Binding InterTabClient}" />
+                </dragablz:TabablzControl.InterTabController>
+                
+                <dragablz:TabablzControl.ContentTemplate>
+                    <DataTemplate DataType="{x:Type local:TabContent}">
+                        <ContentControl Content="{Binding Content}" Margin="2" />
+                    </DataTemplate>
+                </dragablz:TabablzControl.ContentTemplate>
+                
+            </dragablz:TabablzControl>
+
+        </dockablz:Layout>
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>Generate Request and Certificate Application</StatusBarItem>
+            <Separator Style="{StaticResource MetroStatusBarSeparator}" />
+            <StatusBarItem>Menu option:</StatusBarItem>
+            <StatusBarItem Name="sbiSelectedMenuOption" />
+        </StatusBar>
+
+    </Grid>
+    
+</Controls:MetroWindow>

@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="CrashReporterWPF.Net.ucScreenshot"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+
+        <Grid.RowDefinitions >
+            <RowDefinition Height="5" SharedSizeGroup="A" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5" SharedSizeGroup="A" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5" SharedSizeGroup="B" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" SharedSizeGroup="B" />
+        </Grid.ColumnDefinitions>
+        <CheckBox Content="Content Screenshot" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" />
+        <Label Content="View Full Screenshot" Grid.Column="3" Grid.Row="1"  Grid.ColumnSpan="2" />
+        <Image Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="4" Grid.RowSpan="9" Source="{Binding Path=ImagePath}" /> 
+    </Grid>
+</UserControl>

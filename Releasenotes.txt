@@ -1,0 +1,105 @@
+GenCert Release Notes
+
+	Primary this application was develop for creating certificate request for web 
+server with additional subject names. Generated certificate file with .csr extension 
+need to be send to internal or external certificate authorities (CA) to generate 
+certificate file. This generated certificate file will be connect with certificate 
+private key to generate .pfx certificate file for web server.
+Certificate file generated on this way with internal or external CA public key 
+certificate will be used on web server to provide web server authentication.
+
+	After initial version, I added new option for generating self sign certificate that 
+can be generate root CA certificate and other option for generating certificate base on 
+date inside certificate request file (.csr).
+
+	This application can be use for practical and educational purpose.
+	
+	This is Windows Desktop application developed using WPF MahApps and Bouncy Castle PKI library.
+	
+Current Release Number : 
+   1.3.0.0 [see end of file for latest changes]
+   
+Release Date : 
+   2018/05/10 [YYYY/MM/DD]
+
+   This file accompanies the latest release of the GenCert software and tracks 
+changes since release of version 1.0.0.0  
+
+The latest release notes are available in Releasenotes.txt in the same
+directory.  
+
+ToDo
+	-Add new menu options:
+		-sign with certificate different file type (.pdf, .xml ...)
+		-encrypt with certificate different file type (.pdf, .xml ...)
+		-sign+encrypt with certificate different file type (.pdf, .xml ...)
+		-generate certificate for user encrypt and sign mail messages
+		-generate certificate sign ba self-sign CA base on data eneterd on form (without .csr file)
+		-generate certificate for itermediate CA that will issue certificate base on data entered inside form (without .csr file)
+		-sign files with certificate that will be read from smart card
+   
+Version 1.0.0.0
+	This is initial unpublished version on GenCert application.
+   
+New Features
+   -New Menu option: Create Request
+   -New Menu option: Create Certificate
+   
+Version 1.1.0.0
+	This is first tested unpublished version on GenCert application.
+   
+New Features
+	<None at this time>
+
+Improvements/Enhancements
+	-Added help for application
+
+Removed/Retired Features
+	<None at this time>
+
+Bug Fixes
+	-Fix automatic generation subject alternative name base on common name field
+	-Fix generation Enhance Key usage attributes for BasicConstraints
+	
+Version 1.2.0.0
+	This is first tested unpublished version on GenCert application.
+   
+New Features
+   -New Menu option: Create SelfSign Cert.
+   -New Menu option: Issue Certificate
+   -Add CheckComboBoxes to GenerateRequest form for KeyUsage and ExtendedKeyUsage
+
+Improvements/Enhancements
+	-Add output logging message to form
+
+Removed/Retired Features
+	<None at this time>
+
+Bug Fixes
+	-Fix generation Enhance Key usage attributes for BasicConstraints
+
+Version 1.3.0.0
+	This is first tested published version on GenCert application.
+   
+New Features
+	-added new configuration .ini file that will store default value for "Friendly user name" field for different menu option
+	-added new user interface. 
+	 Now each menu option when activate, create new tab inside main application tab and open 
+	 appropriate form for activated menu option
+	-added ToolTip help for each menu option
+	-added ToolTip help for each button inside forms
+	-added Continue (wizard) button to forms
+
+Improvements/Enhancements
+	-all unused part of code are deleted
+	-Added text box Friendly Name to forms
+	-Completely rewrite application user manual
+	-added new automatic select content of text box for all field that contain path for file or folder
+	-added tests for loaded and generated certificate validation and validity time period
+
+Removed/Retired Features
+	<None at this time>
+
+Bug Fixes
+	-Fix output logging message to various forms
+
