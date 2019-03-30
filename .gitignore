@@ -163,3 +163,4 @@ GenCertHelp/*
 !GenCertHelp/*.pdf
 !GenCertHelp/*.chm
 !GenCertHelp/*.docx
+!GenCertHelp/*.WHC

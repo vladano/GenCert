@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuracion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFiles>
+    <string>.\GenCert steps.docx</string>
+  </SourceFiles>
+  <Compilar>true</Compilar>
+  <DirectorioDestino />
+  <HtmlCabecera />
+  <HtmlPie />
+  <TituloAyuda>Step by step, how to generate certificate file</TituloAyuda>
+  <NivelCorte>9</NivelCorte>
+  <GenerarWeb>true</GenerarWeb>
+  <ArchivosAdicionales />
+  <AbrirProyecto>true</AbrirProyecto>
+  <DirectorioWeb>.\GenCert steps-web</DirectorioWeb>
+  <NivelArbolContenidos>9</NivelArbolContenidos>
+  <NivelTemasIndice>9</NivelTemasIndice>
+  <ArchivoAyuda>.\GenCert steps.chm</ArchivoAyuda>
+  <CommandLine />
+  <GeneratePdf>true</GeneratePdf>
+  <PdfPath>.\GenCert steps.pdf</PdfPath>
+  <WebKeywords />
+  <WebDescription />
+  <WebHeaderFile />
+  <WebFooterFile />
+  <GenerateSitemap>false</GenerateSitemap>
+  <WebBase>http://</WebBase>
+  <ChangeFrequency>monthly</ChangeFrequency>
+  <WebLanguage>English</WebLanguage>
+  <ConfigurationVersion>1.7</ConfigurationVersion>
+  <FullTextSearch>false</FullTextSearch>
+  <PdfGeneration>OfficeAddin</PdfGeneration>
+  <GenerateXps>true</GenerateXps>
+  <XpsPath>.\GenCert steps.xps</XpsPath>
+  <GenerateJavaHelp>false</GenerateJavaHelp>
+  <JavaHelpPath />
+  <HeadTagFile />
+  <ChmLocaleID>1033</ChmLocaleID>
+  <WebTemplateName>jQuery</WebTemplateName>
+  <CustomTemplateDirectory />
+</Configuracion>
