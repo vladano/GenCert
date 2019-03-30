@@ -13,6 +13,7 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+*.zip
 
 # Windows shortcuts
 *.lnk
@@ -156,6 +157,7 @@ Backup*/
 UpgradeLog*.XML
 
 # My custom 
+_doc/
 out/
 GenCertHelp/*
 !GenCertHelp/*.pdf

@@ -15,7 +15,7 @@
                        VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                        Foreground="{DynamicResource WhiteColorBrush}" Margin="0" 
                    TextAlignment="Center">
-                <Run Text="GetCert PKI Application"/>
+                <Run Text="GenCert PKI Application"/>
         </TextBlock>
     </Grid>
 </UserControl>

@@ -57,10 +57,6 @@
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
 
-    <!--<Controls:MetroWindow.WindowButtonCommands>
-        <Controls:WindowButtonCommands Template="{DynamicResource MahApps.Metro.Templates.WindowButtonCommands.Win10}" />
-    </Controls:MetroWindow.WindowButtonCommands>-->
-
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands >
             <Menu>
@@ -80,17 +76,11 @@
 
     <Controls:MetroWindow.IconTemplate>
         <DataTemplate>
-            <!--<iconPacks:PackIconModern Kind="TilesPlus" 
-                                      Foreground="{DynamicResource IdealForegroundColorBrush}"
-                                      Margin="4"
-                                      Width="{TemplateBinding Width}"
-                                      Height="{TemplateBinding Height}" />-->
             <iconPacks:PackIconMaterial Kind="Certificate" 
                                       Foreground="{DynamicResource IdealForegroundColorBrush}"
                                       Margin="4"
                                       Width="{TemplateBinding Width}"
                                       Height="{TemplateBinding Height}" />
-            <!--<iconPacks:PackIconFontAwesome Kind="Key" />-->
         </DataTemplate>
     </Controls:MetroWindow.IconTemplate>
 
@@ -150,6 +140,14 @@
                         This menu option simulates signing certificate request file (.csr) from CA certificate authority<LineBreak />
                         and generate sign certificate file base on data inside certificate request file (.csr).<LineBreak />
                         This menu option is used for testing purposes 
+                    </TextBlock>
+                </MenuItem.ToolTip>
+            </MenuItem>
+            <MenuItem Header="CA Certificate" Click="CACertificatesForm_Click">
+                <MenuItem.ToolTip>
+                    <TextBlock>
+                        Using this menu option, you can generate Master, Intermediate and Issuer CA certificate file.<LineBreak />
+                        This menu option is used for testing purposes
                     </TextBlock>
                 </MenuItem.ToolTip>
             </MenuItem>

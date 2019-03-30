@@ -40,6 +40,9 @@
     <ApplicationIcon>certificate.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net40\ControlzEx.dll</HintPath>
     </Reference>
@@ -47,8 +50,8 @@
       <HintPath>..\packages\Costura.Fody.1.6.2\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Dragablz, Version=0.0.3.197, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dragablz.0.0.3.197\lib\net40\Dragablz.dll</HintPath>
+    <Reference Include="Dragablz, Version=0.0.3.203, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.203\lib\net40\Dragablz.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
@@ -84,13 +87,13 @@
     <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="System.Security" />
     <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net40\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -127,15 +130,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CertData.cs" />
+    <Compile Include="Forms\CA Parameters.xaml.cs">
+      <DependentUpon>CA Parameters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CreateCA.xaml.cs">
+      <DependentUpon>CreateCA.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ExtendedKeyUsageData.cs" />
-    <Compile Include="Forms\GeneratePFX.xaml.cs">
-      <DependentUpon>GeneratePFX.xaml</DependentUpon>
+    <Compile Include="Forms\CreatePFX.xaml.cs">
+      <DependentUpon>CreatePFX.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\GenerateSelfSign.xaml.cs">
-      <DependentUpon>GenerateSelfSign.xaml</DependentUpon>
+    <Compile Include="Forms\CreateSelfSign.xaml.cs">
+      <DependentUpon>CreateSelfSign.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\GenerateSignRequest.xaml.cs">
-      <DependentUpon>GenerateSignRequest.xaml</DependentUpon>
+    <Compile Include="Forms\IssueCert.xaml.cs">
+      <DependentUpon>IssueCert.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\KeyUsageData.cs" />
     <Compile Include="IniFile.cs" />
@@ -146,19 +156,27 @@
     <Compile Include="Platform.cs" />
     <Compile Include="SetMinWidthToAutoAttachedBehaviour.cs" />
     <Compile Include="TabContent.cs" />
-    <Page Include="Forms\GeneratePFX.xaml">
+    <Page Include="Forms\CA Parameters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\GenerateRequest.xaml">
+    <Page Include="Forms\CreatePFX.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\GenerateSelfSign.xaml">
+    <Page Include="Forms\CreateRequest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\CreateCA.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\CreateSelfSign.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
-    <Page Include="Forms\GenerateSignRequest.xaml">
+    <Page Include="Forms\IssueCert.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
@@ -178,8 +196,8 @@
     <Compile Include="AppThemeMenuData.cs" />
     <Compile Include="CrashReporterGlobalField.cs" />
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="Forms\GenerateRequest.xaml.cs">
-      <DependentUpon>GenerateRequest.xaml</DependentUpon>
+    <Compile Include="Forms\CreateRequest.xaml.cs">
+      <DependentUpon>CreateRequest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SubjectName.cs" />
     <Compile Include="Help.cs" />
@@ -208,9 +226,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -221,45 +237,46 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="FodyWeavers.xml" />
+    <None Include="FodyWeavers.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrashReporterWPF.Net\CrashReporterWPF.Net.csproj">
       <Project>{7696262e-45fc-4f68-a65e-468cd988cbc2}</Project>
       <Name>CrashReporterWPF.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\crypto\BouncyCastle.csproj">
-      <Project>{4c235092-820c-4deb-9074-d356fb797d8b}</Project>
-      <Name>BouncyCastle</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="certificate.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist $(ProjectDir)..\out\ mkdir $(ProjectDir)..\out
+copy $(TargetPath) $(ProjectDir)..\out
+copy "$(TargetName)$(TargetExt).config" $(ProjectDir)..\out
+
+if exist $(SolutionDir)GenCertHelp\GenCert.chm copy /-Y $(SolutionDir)GenCertHelp\GenCert.chm $(ProjectDir)..\out
+if exist $(SolutionDir)GenCertHelp\GenCert.pdf copy /-Y $(SolutionDir)GenCertHelp\GenCert.pdf $(ProjectDir)..\out
+if exist  "$(SolutionDir)GenCertHelp\GenCert steps.docx" copy /-Y "$(SolutionDir)GenCertHelp\GenCert steps.docx" $(ProjectDir)..\out
+if exist  "$(SolutionDir)GenCertHelp\GenCert steps.pdf" copy /-Y "$(SolutionDir)GenCertHelp\GenCert steps.pdf" $(ProjectDir)..\out
+
+copy $(SolutionDir)Releasenotes.txt $(ProjectDir)..\out
+copy $(SolutionDir)Releasenotes.txt $(TargetDir)
+
+</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
     <Error Condition="!Exists('..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\Costura.Fody.1.6.2\build\portable-net+sl+win+wpa+wp\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.1.6.2\build\portable-net+sl+win+wpa+wp\Costura.Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Import Project="..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.2.0.0\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <Import Project="..\packages\Costura.Fody.1.6.2\build\portable-net+sl+win+wpa+wp\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.1.6.2\build\portable-net+sl+win+wpa+wp\Costura.Fody.targets')" />
-  <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)GenCertHelp\GenCert.chm $(TargetDir)
-if not exist $(ProjectDir)..\out\ mkdir $(ProjectDir)..\out
-copy $(TargetPath) $(ProjectDir)..\out
-copy "$(TargetName)$(TargetExt).config" $(ProjectDir)..\out
-copy $(SolutionDir)GenCertHelp\GenCert.chm $(ProjectDir)..\out
-copy $(SolutionDir)GenCertHelp\GenCert.pdf $(ProjectDir)..\out
-rem copy "$(SolutionDir)GenCertHelp\GenCert steps.docx" $(ProjectDir)..\out
-copy $(SolutionDir)Releasenotes.txt $(ProjectDir)..\out
-copy $(SolutionDir)Releasenotes.txt $(TargetDir)
-</PostBuildEvent>
-  </PropertyGroup>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

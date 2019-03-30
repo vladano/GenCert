@@ -39,10 +39,6 @@ namespace GenCert
             get { return _interTabClient; }
         }
 
-        //public static Func<object> NewItemFactory
-        //{
-        //    get { return () => new TabContent("Introduction2", new IntroductionPage()); }
-        //}
         public static Func<object> NewItemFactory
         {
             get { return () => new TabContent("Introduction", new IntroductionPage()); }
@@ -89,10 +85,11 @@ namespace GenCert
         }
         #endregion
 
+
         public static MainWindowViewModel CreateWithSamples()
         {
+
             var result = new MainWindowViewModel();
-            //result.TabContents.Add(new TabContent("Introduction", new IntroductionPage()));
 
             TabContent tc = new TabContent("Main", new IntroductionPage());
             result.TabContents.Add(tc);

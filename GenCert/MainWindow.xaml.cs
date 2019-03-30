@@ -27,18 +27,37 @@ namespace GenCert
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        //novo
+        private readonly MainWindowViewModel _viewModel;
+
         private bool _shutdown;
         internal static bool isAdmin = false;
         internal static bool isTest = false;
 
-        internal static string appVersion = "1.3.0.0";//1.3.3.0";
+        internal static string appVersion = "1.5.2.0";
+        #region version description
         // 1.0 - inicijalna verzija sa dve opcije menija
         // 1.1 - upotrebljiva inicijalna verzija sa dve opcije menija, dokumentacija 
         // 1.2 - dodate dve nove opcije menija
-        // 1.3 - ini fajl, frendly name, new user interface, nova dokumentacija
+        // 1.3 - ini fajl, friendly name, new user interface, nova dokumentacija
+        // 1.4 - nova dokumentacija
+        // 1.5 - nova forma za CA chain, koriscenje CA chain na formi za IssuCert i CreatePFX
+        //       new class CertData da cuva podatke potrebne kada se koristi Coninue button na formama
+        // 1.5.1 - Resen problem sa koriscenjem custom BouncyCastle library. Za citanje request fajla se sada koristi originalni BouncyCastle kod bez ispravki 
+        // BouncyCastle:
+        // Release 1.8.5, 31st January 2019
+        // bccrypto-csharp-1.8.5-bin.zip
+        // 1.5.1.1
+        // bug fix - add domain name to "Subject Alternative Names" when click button "Gen.Alternative Names" on form CreateRequest
+        // change default Signature Algorithm from SHA1WITHRSA to SHA512WITHRSA on all forms
+        // 1.5.1.2
+        // new feature - add new butons on CA Certificate form
+        // 1.5.2.0
+        // new feature - add password for crypt generated private key file on form CreateRequest
+        // new feature - add password for decrypt private key file on form CreateCertificate
+        #endregion
 
         private static bool _hackyIsFirstWindow = true;
-
         private static UserControl loadedUserForm = null;
 
         //LOG4NET - Here is the once-per-class call to initialize the log object
@@ -64,7 +83,7 @@ namespace GenCert
             IniFile ini = new IniFile(iniFilePath);
             if (!File.Exists(iniFilePath))
             {
-                ini.IniWriteValue("Configuration", "FriendlyName", "Certificate Frendly Name");
+                ini.IniWriteValue("Configuration", "FriendlyName", "Certificate Friendly Name");
             }
             certFriendlyName = ini.IniReadValue("Configuration", "FriendlyName");
             #endregion
@@ -93,7 +112,6 @@ namespace GenCert
                 mainWindow.Top = Properties.Settings.Default.Top;
 
                 mwm = MainWindowViewModel.CreateWithSamples();
-
                 DataContext = mwm;
             }
 
@@ -102,6 +120,13 @@ namespace GenCert
 
         private async void MetroWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            MainWindow mw = (MainWindow)sender;
+            // Close button only close app on main form
+            if (mw.DataContext == null)
+            {
+                return;
+            }
+
             if (e.Cancel) return;
             e.Cancel = !_shutdown; // && _viewModel.QuitConfirmationEnabled;
             if (_shutdown) return;
@@ -136,10 +161,6 @@ namespace GenCert
                 isHelpMode = false;
                 Mouse.OverrideCursor = null;
 
-                //if (HelpProvider.Help.MyHelpCommand.CanExecute(null, this))
-                //{
-                //    HelpProvider.Help.MyHelpCommand.Execute(null, this);
-                //}
                 if (Help.MyHelpCommand.CanExecute(null, this))
                 {
                     Help.MyHelpCommand.Execute(null, this);
@@ -220,9 +241,8 @@ namespace GenCert
         {
             var result = await this.ShowMessageAsync("Generate Request and Certificate PKI Application About",
                 "Generate Request and Certificate PKI Application\n\n" +
-                "Version :"+ appVersion+"\n" +
-                "Author: Vladan Obradovic" + "\n"+
-                "Mail: vladan.obradovic@gmail.com",
+                "Version :" + appVersion + "\n" +
+                "Author : Vladan Obradovic",
                 MessageDialogStyle.Affirmative);
         }
 
@@ -263,13 +283,15 @@ namespace GenCert
                 e.Handled = true;
             }
         }
+
         private void GenerateCertRequest_Click(object sender, RoutedEventArgs e)
         {
-            mainGrid.DataContext = new GenerateRequest();
+            mainGrid.DataContext = new CreateRequest();
         }
+
         private void GenerateCreateSignCert_Click(object sender, RoutedEventArgs e)
         {
-            mainGrid.DataContext = new GenerateRequest();
+            mainGrid.DataContext = new CreateRequest();
         }
 
         private void ToggleHelp()
@@ -327,10 +349,12 @@ namespace GenCert
                 }
             }
         }
+
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             AppQuit();
         }
+
         public async void AppQuit()
         {
             var settings = new MetroDialogSettings()
@@ -351,7 +375,6 @@ namespace GenCert
 
         internal void GetTabablzData(out string header0, out IEnumerable<TabablzControl> tctrl)
         {
-            //var wnd = this.dialogService.GetMetroWindow();
             MetroWindow wnd = (MetroWindow)App.Current.MainWindow;
             TabablzControl tc = (TabablzControl)wnd.FindName("InitialTabablzControl");
 
@@ -359,11 +382,12 @@ namespace GenCert
             header0 = itc0.Header;
             tctrl = TabablzControl.GetLoadedInstances();
         }
+
         internal void AddTabablzData(string header0, IEnumerable<TabablzControl> tctrl, TabContent tc1)
         {
             TabablzControl lastTabablzControl = tctrl.Last();
 
-            // dodaje novi tab iza zadnjeg tab-a koji se vidi
+            // adds a new tab after the last right tab
             IEnumerable<DragablzItem> orderedDragablzItem = lastTabablzControl.GetOrderedHeaders();
             DragablzItem lastTab = orderedDragablzItem.Last();
             TabablzControl.AddItem(tc1, lastTab.DataContext, AddLocationHint.After);
@@ -378,19 +402,15 @@ namespace GenCert
             GetTabablzData(out header0, out tctrl);
             header0 = "Create Request";
 
-            GenerateRequest gr = new GenerateRequest();
+            CreateRequest gr = new CreateRequest();
             if (loadedUserForm==null || loadedUserForm!=gr)
             {
                 loadedUserForm = gr;
             }
 
-            //mainGrid.Child = loadedUserForm;
-            //TabContent tc1 = new TabContent("Create Request", loadedUserForm);
             TabContent tc1 = new TabContent(header0, loadedUserForm);
             AddTabablzData(header0, tctrl, tc1);
 
-            //MenuItem mi = (MenuItem)sender;
-            //sbiSelectedMenuOption.Content = mi.Header;
             sbiSelectedMenuOption.Content = header0;
         }
 
@@ -401,19 +421,15 @@ namespace GenCert
             GetTabablzData(out header0, out tctrl);
             header0 = "Create Certificate";
 
-            GeneratePFX gr = new GeneratePFX(certFriendlyName);
+            CreatePFX gr = new CreatePFX();
             if (loadedUserForm == null || loadedUserForm != gr)
             {
-                loadedUserForm = new GeneratePFX(certFriendlyName);
+                loadedUserForm = gr;
             }
 
-            //mainGrid.Child = loadedUserForm;
-            //TabContent tc1 = new TabContent("Create Certificate", loadedUserForm);
             TabContent tc1 = new TabContent(header0, loadedUserForm);
             AddTabablzData(header0, tctrl, tc1);
 
-            //MenuItem mi = (MenuItem)sender;
-            //sbiSelectedMenuOption.Content = mi.Header;
             sbiSelectedMenuOption.Content = header0;
         }
 
@@ -424,19 +440,15 @@ namespace GenCert
             GetTabablzData(out header0, out tctrl);
             header0 = "Create SelfSign Cert.";
 
-            GenerateSelfSign gr = new GenerateSelfSign(certFriendlyName);
+            CreateSelfSign gr = new CreateSelfSign();
             if (loadedUserForm == null || loadedUserForm != gr)
             {
-                loadedUserForm = new GenerateSelfSign(certFriendlyName);
+                loadedUserForm = gr;
             }
 
-            //mainGrid.Child = loadedUserForm;
-            //TabContent tc1 = new TabContent("Create SelfSign Cert.", loadedUserForm);
             TabContent tc1 = new TabContent(header0, loadedUserForm);
             AddTabablzData(header0, tctrl, tc1);
 
-            //MenuItem mi = (MenuItem)sender;
-            //sbiSelectedMenuOption.Content = mi.Header;
             sbiSelectedMenuOption.Content = header0;
         }
 
@@ -447,19 +459,34 @@ namespace GenCert
             GetTabablzData(out header0, out tctrl);
             header0 = "Issue Certificate";
 
-            GenerateSignRequest gr = new GenerateSignRequest(certFriendlyName);
+            IssueCert gr = new IssueCert();
             if (loadedUserForm == null || loadedUserForm != gr)
             {
-                loadedUserForm = new GenerateSignRequest(certFriendlyName);
+                loadedUserForm = gr;
             }
 
-            //mainGrid.Child = loadedUserForm;
-            //TabContent tc1 = new TabContent("Issue Certificate", loadedUserForm);
             TabContent tc1 = new TabContent(header0, loadedUserForm);
             AddTabablzData(header0, tctrl, tc1);
 
-            //MenuItem mi = (MenuItem)sender;
-            //sbiSelectedMenuOption.Content = mi.Header;
+            sbiSelectedMenuOption.Content = header0;
+        }
+
+        private void CACertificatesForm_Click(object sender, RoutedEventArgs e)
+        {
+            string header0 = "CA Certificate";
+            IEnumerable<TabablzControl> tctrl;
+            GetTabablzData(out header0, out tctrl);
+            header0 = "CA Certificate";
+
+            CreateCA gr = new CreateCA();
+            if (loadedUserForm == null || loadedUserForm != gr)
+            {
+                loadedUserForm = gr;
+            }
+
+            TabContent tc1 = new TabContent(header0, loadedUserForm);
+            AddTabablzData(header0, tctrl, tc1);
+
             sbiSelectedMenuOption.Content = header0;
         }
     }

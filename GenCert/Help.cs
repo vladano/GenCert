@@ -118,15 +118,8 @@ namespace GenCert
             DependencyObject mouseover = Mouse.DirectlyOver as DependencyObject;
             string keyword = FindKeyword(mouseover);
             string command = FindCommand(mouseover);
-            //if (!string.IsNullOrEmpty(keyword))
             if (!string.IsNullOrEmpty(command))
             {
-                ////MessageBox.Show("FileName: " + FindFilename(mouseover) + "\nKeyword: " + keyword);
-                ////form.Help.ShowHelp(null, FindFilename(mouseover), keyword);
-
-                ////System.Windows.Forms.Help.ShowHelp(null, @"CDAC.chm", "start.htm#_Toc400999009");
-                //string helpFileName = FindFilename(mouseover);
-                //System.Windows.Forms.Help.ShowHelp(null, helpFileName, "start.htm#_" + keyword);
                 if (command != "_ExitHelpMode")
                 {
 
@@ -152,11 +145,7 @@ namespace GenCert
             }
             else
             {
-                //MessageBox.Show("FileName: " + FindFilename(mouseover));
-                ////form.Help.ShowHelp(null, FindFilename(mouseover));
                 string helpFileName = FindFilename(mouseover);
-                //System.Windows.Forms.Help.ShowHelp(null, helpFileName, "start.htm#_" + keyword);
-                //System.Windows.Forms.Help.ShowHelp(null, helpFileName);
             }
         }
 

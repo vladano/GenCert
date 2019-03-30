@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenCert", "GenCert\GenCert.csproj", "{0F56EDA9-CF7F-4C49-A67B-3FCD434D4902}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrashReporterWPF.Net", "CrashReporterWPF.Net\CrashReporterWPF.Net.csproj", "{7696262E-45FC-4F68-A65E-468CD988CBC2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BouncyCastle", "crypto\BouncyCastle.csproj", "{4C235092-820C-4DEB-9074-D356FB797D8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +21,14 @@ Global
 		{7696262E-45FC-4F68-A65E-468CD988CBC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7696262E-45FC-4F68-A65E-468CD988CBC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7696262E-45FC-4F68-A65E-468CD988CBC2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C235092-820C-4DEB-9074-D356FB797D8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C235092-820C-4DEB-9074-D356FB797D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C235092-820C-4DEB-9074-D356FB797D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C235092-820C-4DEB-9074-D356FB797D8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7532950-93F7-4581-9361-0F9D1CCB8CAD}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = crypto\BouncyCastle.csproj
 	EndGlobalSection
 EndGlobal
