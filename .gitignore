@@ -160,7 +160,5 @@ UpgradeLog*.XML
 _doc/
 out/
 GenCertHelp/*
-!GenCertHelp/*.pdf
-!GenCertHelp/*.chm
 !GenCertHelp/*.docx
 !GenCertHelp/*.WHC
